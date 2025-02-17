@@ -151,7 +151,13 @@ main :: proc() {
 			}
 
 		} else {
+			// rl.DrawText("GAME OVER", 100, 100, 20, rl.RED)
+			// rl.DrawText("Push Enter to Start New Game", 80, 125, 10, rl.RED)
+			// score = 0
 
+			// if rl.IsKeyPressed(.ENTER) {
+			// 	restart()
+			// }
 			game_over()
 
 		}
