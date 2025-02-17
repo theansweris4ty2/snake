@@ -73,7 +73,6 @@ main :: proc() {
 			   head_pos.y < 0 ||
 			   head_pos.x >= GRID_WIDTH ||
 			   head_pos.y >= GRID_WIDTH {
-				rl.PlaySound(game_over_sound)
 				is_game_over = true
 
 
@@ -82,7 +81,7 @@ main :: proc() {
 			for i in 1 ..< snake_length - 1 {
 				if snake[i] == head_pos {
 
-					rl.PlaySound(game_over_sound)
+
 					is_game_over = true
 				}
 			}
@@ -151,10 +150,11 @@ main :: proc() {
 			}
 
 		} else {
+
 			rl.DrawText("GAME OVER", 100, 100, 20, rl.RED)
 			rl.DrawText("Push Enter to Start New Game", 80, 125, 10, rl.RED)
 			score = 0
-
+			rl.PlaySound(game_over_sound)
 			if rl.IsKeyPressed(.ENTER) {
 				restart()
 			}

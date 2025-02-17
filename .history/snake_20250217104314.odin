@@ -30,7 +30,6 @@ main :: proc() {
 	rl.SetConfigFlags({.VSYNC_HINT})
 	rl.InitAudioDevice()
 	eating_sound := rl.LoadSound("rsc/eat.wav")
-	game_over_sound := rl.LoadSound("rsc/game_over.wav")
 	restart()
 
 
@@ -73,16 +72,11 @@ main :: proc() {
 			   head_pos.y < 0 ||
 			   head_pos.x >= GRID_WIDTH ||
 			   head_pos.y >= GRID_WIDTH {
-				rl.PlaySound(game_over_sound)
 				is_game_over = true
-
-
 			}
 
 			for i in 1 ..< snake_length - 1 {
 				if snake[i] == head_pos {
-
-					rl.PlaySound(game_over_sound)
 					is_game_over = true
 				}
 			}
@@ -93,7 +87,13 @@ main :: proc() {
 				next_part_position = cur_pos
 			}
 
+			// if new_snake_part == true {
+			// 	rl.PlaySound(eating_sound)
+			// 	snake_length += 1
+			// 	snake[snake_length - 1] = next_part_position
+			// 	new_snake_part = false
 
+			// }
 			for i in 0 ..< len(snake_food) {
 				if rl.CheckCollisionRecs(
 					snake_food[i],
@@ -142,6 +142,7 @@ main :: proc() {
 				}
 
 				rl.DrawRectangleRec(snake_part_rect, rl.GREEN)
+				eat_food()
 				for food in snake_food {
 					if len(snake_food) > 0 {
 						rl.DrawRectangleRec(food, rl.RED)
@@ -151,14 +152,7 @@ main :: proc() {
 			}
 
 		} else {
-			rl.DrawText("GAME OVER", 100, 100, 20, rl.RED)
-			rl.DrawText("Push Enter to Start New Game", 80, 125, 10, rl.RED)
-			score = 0
-
-			if rl.IsKeyPressed(.ENTER) {
-				restart()
-			}
-
+			game_over()
 		}
 
 
@@ -166,7 +160,6 @@ main :: proc() {
 		rl.EndDrawing()
 	}
 	rl.UnloadSound(eating_sound)
-	rl.UnloadSound(game_over_sound)
 	rl.CloseAudioDevice()
 	rl.CloseWindow()
 

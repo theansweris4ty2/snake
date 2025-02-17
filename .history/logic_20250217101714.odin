@@ -18,7 +18,6 @@ restart :: proc() {
 }
 game_over :: proc() {
 
-	is_game_over = true
 	rl.DrawText("GAME OVER", 100, 100, 20, rl.RED)
 	rl.DrawText("Push Enter to Start New Game", 80, 125, 10, rl.RED)
 	score = 0
@@ -40,3 +39,23 @@ place_food :: proc() -> rl.Rectangle {
 	}
 	return food_pellet
 }
+
+eat_food :: proc() {
+	for i in 0 ..< len(snake_food) {
+		if rl.CheckCollisionRecs(
+			snake_food[i],
+			rl.Rectangle {
+				f32(snake[i].x) * CELL_SIZE,
+				f32(snake[i].y) * CELL_SIZE,
+				CELL_SIZE,
+				CELL_SIZE,
+			},
+		) {
+			ordered_remove(&snake_food, i)
+			score += 1
+			new_snake_part = true
+
+			rl.PlaySound(eating_sound)
+		}
+
+	}}

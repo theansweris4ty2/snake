@@ -18,7 +18,6 @@ restart :: proc() {
 }
 game_over :: proc() {
 
-	is_game_over = true
 	rl.DrawText("GAME OVER", 100, 100, 20, rl.RED)
 	rl.DrawText("Push Enter to Start New Game", 80, 125, 10, rl.RED)
 	score = 0
